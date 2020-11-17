@@ -6,7 +6,11 @@ if __name__ == "__main__":
     while True:
         search = input("Enter Name: ")
         search = search.replace(' ', '+')
-        url = requests.get(f"http://worldsubtitle.info/?s={search}")
+        try:
+            url = requests.get(f"http://worldsubtitle.info/?s={search}")
+        except requests.ConnectionError:
+            print('Please check your internet connection')
+            continue
         soap = BeautifulSoup(url.text, 'html.parser')
         soap = soap.find_all('div', {'class': 'cat-post-titel'})
         if soap:
